@@ -1,11 +1,10 @@
 # Application Overview
-This github repository walks through two methods to automatically backup the files on a Duet 3D printer controller board to another location to avoid loss of important data.
+This source code is a backup utility for the files on an SBC-mode Duet3 controller. For a utility to backup files on Duet boards in standalone mode, see wilriker's excellent [RFM](https://github.com/wilriker/rfm).
 
+## How does it work?
 The backup.sh script will perform a backup of the /sys, /macros, and /filaments folders, checking for new changes to files every minute
-- The backup script uses rclone to perform the backup to a destination
-- The script is scheduled using a cron job on the RPI to perform the backup every minute. If files haven't changed, there is no action.
-- If no changed files were detected, the files won't be synced to the destination, and additional storage space isn't used.
-- Rclone is very configurable, and you can easily backup other folders by adding an additional rclone command in the backup.sh script
+- The backup script uses [rclone](https://rclone.org/) to perform the backup to a destination server
+- The script is scheduled using a cron job on the RPI to check if it needs to perform a backup every minute. If files haven't changed, there is no action.
 
 # Link to Video Setup Instructions
 TODO
@@ -72,6 +71,12 @@ Copy and paste the following line into the crontab file (changing the path to th
 # Notes
 - You can test if rclone has the source or remote directory configured correcty by running "rclone lsd insert_your_remote_name_here:" and it should list the current directories in that folder. Alternatively you can run the ls command to list the files in the folder.
 - You can also set cron to email you when a job completes with addinga MAILTO line, but additional configuration is required.
+
+# Code Documentation
+## Exit Codes
+- 0 = source file and hash in sync, not synced to remote
+- 1 = source file and hash not in sync, synced to remote
+- 2 = getting error when sending a command to the remote, check remote's connection and config.
 
 # Additional Resources
 - https://phoenixnap.com/kb/set-up-cron-job-linux

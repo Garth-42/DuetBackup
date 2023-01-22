@@ -13,10 +13,6 @@ Source=`cat $PWD/$my_dir/Source.txt`
 # This script works by creating a hash file that compares the source directories to. If the directory changes, it will no longer pass a check against the hash file.
 # Only when the hash file doesn't match the directory is the remote synced to. This cuts down on API calls to the remote directory.
 
-# exit code of 0 = source file and hash in sync, not synced to remote
-# exit code of 1 = source file and hash not in sync, synced to remote
-# exit code of 2 = getting error when sending a command to the remote, check remote's connection and config.
-
 HashFilaments="$ScriptPath""lastHashFilaments.txt"
 HashMacros="$ScriptPath""lastHashMacros.txt"
 HashSys="$ScriptPath""lastHashSys.txt"
