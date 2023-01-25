@@ -7,7 +7,7 @@
 # all the files. If you want to access previous versions, go into the Bak folder.
 
 ScriptPath=`$PWD/$my_dir`
-Remote=`cat $PWD/$my_dir/Remote.txt`
+Destination=`cat $PWD/$my_dir/Destination.txt`
 Source=`cat $PWD/$my_dir/Source.txt`
 
 # This script works by creating a hash file that compares the source directories to. If the directory changes, it will no longer pass a check against the hash file.
@@ -26,9 +26,9 @@ function updateHashFiles {
 }
 
 function syncToRemote {
-    rclone sync "$Source""sys" "$Remote""Latest/sys" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Remote""Bak/sys" # Backup the sys folder
-    rclone sync "$Source""macros" "$Remote""Latest/macros" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Remote""Bak/macros" # Backup the macros folder
-    rclone sync "$Source""filaments" "$Remote""Latest/filaments" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Remote""Bak/filaments" # Backup the filaments folder
+    rclone sync "$Source""sys" "$Destination""Latest/sys" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Destination""Bak/sys" # Backup the sys folder
+    rclone sync "$Source""macros" "$Destination""Latest/macros" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Destination""Bak/macros" # Backup the macros folder
+    rclone sync "$Source""filaments" "$Destination""Latest/filaments" --suffix=`date +%Y-%m-%d_%H-%M-%S` --suffix-keep-extension --backup-dir="$Destination""Bak/filaments" # Backup the filaments folder
     
 }
 
@@ -44,7 +44,7 @@ fi
 
 # check if connection is working... if it isn't, it forces a deletion of hash files in order to force a sync to the server
 # this will use up more API calls, but will make sure that the remote is always in sync, in case connection is intermittent
-if rclone ls "$Remote""Latest/sys" ; then
+if rclone ls "$Destination""Latest/sys" ; then
     # error code == 0, connection is okay.
     # echo "Connection Okay" >> "$ScriptPath""log.txt"
 else
